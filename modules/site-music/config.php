@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'site-music',
-    '__version' => '0.0.1',
+    '__version' => '0.0.2',
     '__git' => 'git@github.com:getmim/site-music.git',
     '__license' => 'MIT',
     '__author' => [

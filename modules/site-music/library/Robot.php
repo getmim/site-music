@@ -118,4 +118,46 @@ class Robot
 
         return $result;
     }
+
+    static function sitemapMusic(): array {
+        $mim = &\Mim::$app;
+
+        $pages = self::getPages();
+        if(!$pages)
+            return [];
+
+        $result = [];
+        foreach($pages as $page){
+            $route  = $mim->router->to('siteMusicSingle', (array)$page);
+            $result[] = (object)[
+                'page'          => $route,
+                'updated'       => $page->updated,
+                'priority'      => '0.4',
+                'changefreq'    => 'monthly'
+            ];
+        }
+
+        return $result;
+    }
+
+    static function sitemapAlbum(): array {
+        $mim = &\Mim::$app;
+
+        $pages = self::getAlbumPages();
+        if(!$pages)
+            return [];
+
+        $result = [];
+        foreach($pages as $page){
+            $route  = $mim->router->to('siteMusicAlbumSingle', (array)$page);
+            $result[] = (object)[
+                'page'          => $route,
+                'updated'       => $page->updated,
+                'priority'      => '0.4',
+                'changefreq'    => 'monthly'
+            ];
+        }
+
+        return $result;
+    }
 }
