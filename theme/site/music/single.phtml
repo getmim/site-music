@@ -15,8 +15,10 @@
                     <?= $music->created->format('M d, Y H:i') ?> 
                     &middot;
                     <?= $music->user->fullname ?>
+                    <?php if($music->album): ?>
                     &middot;
                     <a href="<?= $music->album->page ?>"><?= $music->album->name ?></a>
+                    <?php endif; ?>
                 </div>
                 <hr>
                 <audio src="<?= $music->file ?>"></audio>
