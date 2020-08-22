@@ -10,7 +10,59 @@ namespace SiteMusic\Library;
 
 class Meta
 {
-    static function albumSingle(object $album){
+    static function musicIndex($musics, $total): array{
+        $result = [
+            'head' => [],
+            'foot' => []
+        ];
+
+        $home_url = \Mim::$app->router->to('siteHome');
+
+        $def_meta = (object)[
+            'title'         => \Mim::$app->setting->music_index_title,
+            'description'   => \Mim::$app->setting->music_index_description,
+            'schema'        => 'MusicPlaylist',
+            'keyword'       => ''
+        ];
+
+        $result['head'] = [
+            'description'       => $def_meta->description,
+            'schema.org'        => [],
+            'type'              => 'website',
+            'title'             => $def_meta->title,
+            'url'               => \Mim::$app->router->to('siteMusic'),
+            'metas'             => []
+        ];
+
+        $result['head']['schema.org'][] = [
+            '@context'  => 'http://schema.org',
+            '@type'     => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'item' => [
+                        '@id' => $home_url,
+                        'name' => \Mim::$app->config->name
+                    ]
+                ]
+            ]
+        ];
+
+        // schema page
+        $music_scheme = [
+            '@context'      => 'http://schema.org',
+            '@type'         => $def_meta->schema,
+            'name'          => $def_meta->title,
+            'numTracks'     => $total
+        ];
+        
+        $result['head']['schema.org'][] = $music_scheme;
+
+        return $result;
+    }
+
+    static function albumSingle(object $album): array{
         $result = [
             'head' => [],
             'foot' => []
@@ -46,6 +98,10 @@ class Meta
         ];
 
         // schema breadcrumbList
+        $music_album_url = $home_url . '#music-album';
+        if(\Mim::$app->config->music->index)
+            $music_album_url = \Mim::$app->router->to('siteMusic');
+
         $result['head']['schema.org'][] = [
             '@context'  => 'http://schema.org',
             '@type'     => 'BreadcrumbList',
@@ -62,7 +118,7 @@ class Meta
                     '@type' => 'ListItem',
                     'position' => 2,
                     'item' => [
-                        '@id' => $home_url . '#music-album',
+                        '@id' => $music_album_url,
                         'name' => 'Music Albums'
                     ]
                 ]
@@ -123,6 +179,10 @@ class Meta
         ];
 
         // schema breadcrumbList
+        $music_url = $home_url . '#music';
+        if(\Mim::$app->config->music->index)
+            $music_url = \Mim::$app->router->to('siteMusic');
+
         $result['head']['schema.org'][] = [
             '@context'  => 'http://schema.org',
             '@type'     => 'BreadcrumbList',
@@ -139,7 +199,7 @@ class Meta
                     '@type' => 'ListItem',
                     'position' => 2,
                     'item' => [
-                        '@id' => $home_url . '#music',
+                        '@id' => $music_url,
                         'name' => 'Musics'
                     ]
                 ]

@@ -13,6 +13,30 @@ use LibFormatter\Library\Formatter;
 
 class MusicController extends \Site\Controller
 {
+
+    public function indexAction(){
+        if(!$this->config->music->index)
+            return $this->show404();
+
+        $cond =  [];
+
+        $musics = Music::get($cond, 0, 1, ['title'=>true]);
+        if($musics)
+            $musics = Formatter::formatMany('music', $musics, ['album', 'user']);
+
+        $total = Music::count($cond);
+
+        $params = [
+            'meta'  => Meta::musicIndex($musics, $total),
+            'total' => $total,
+            'musics' => $musics
+        ];
+
+        $this->res->render('music/index', $params);
+        $this->res->setCache(86400);
+        $this->res->send();
+    }
+    
     public function singleAction(){
         $slug = $this->req->param->slug;
 

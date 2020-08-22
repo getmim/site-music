@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'site-music',
-    '__version' => '0.0.4',
+    '__version' => '0.1.0',
     '__git' => 'git@github.com:getmim/site-music.git',
     '__license' => 'MIT',
     '__author' => [
@@ -28,6 +28,9 @@ return [
             ],
             [
                 'site-meta' => NULL
+            ],
+            [
+                'site-setting' => NULL 
             ]
         ],
         'optional' => [
@@ -54,6 +57,13 @@ return [
     ],
     'routes' => [
         'site' => [
+            'siteMusic' => [
+                'path' => [
+                    'value' => '/music'
+                ],
+                'method' => 'GET',
+                'handler' => 'SiteMusic\\Controller\\Music::index'
+            ],
             'siteMusicSingle' => [
                 'path' => [
                     'value' => '/music/listen/(:slug)',
@@ -152,5 +162,8 @@ return [
                 'SiteMusic\\Library\\Robot::sitemapAlbum' => TRUE
             ]
         ]
+    ],
+    'music' => [
+        'index' => true
     ]
 ];
