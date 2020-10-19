@@ -10,11 +10,11 @@ namespace SiteMusic\Library;
 
 class Event
 {
-    static function clearAlbum(object $album): void{
+    static function clearAlbum($album): void{
         
     }
     
-    static function clearMusic(object $music): void{
+    static function clearMusic($music): void{
         
     }
 }
